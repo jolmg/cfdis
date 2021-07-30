@@ -18,8 +18,10 @@ main = do
   args <- getArgs
 
   case args of
-    (pacName : pfxPem : pfxPass : uuidStr : _) -> do
+    (pacName : pfxPemPath : pfxPass : uuidStr : _) -> do
       environment <- lookupEnv "CFDI_ENVIRONMENT"
+
+      pfxPem <- readFile pfxPemPath
 
       let uuid = UUID $ pack uuidStr
           isTest = (map toLower <$> environment) == Just "test"
